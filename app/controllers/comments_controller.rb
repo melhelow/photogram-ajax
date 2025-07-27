@@ -44,29 +44,28 @@ end
 
   # DELETE /comments/1 or /comments/1.json
 def destroy
-  @comment.destroy
+    @comment.destroy
 
-  respond_to do |format|
-    format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
-    format.json { head :no_content }
-    format.js
+    respond_to do |format|
+      format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
+      format.json { head :no_content }
+      format.js   # renders destroy.js.erb
+    end
   end
-end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
-    end
 
-    def ensure_current_user_is_owner
-      if current_user != @comment.author
-        redirect_back fallback_location: root_url, alert: "You're not authorized for that."
-      end
-    end
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def comment_params
-      params.require(:comment).permit(:author_id, :photo_id, :body)
+  def ensure_current_user_is_owner
+    if current_user != @comment.author
+      redirect_back fallback_location: root_url, alert: "You're not authorized for that."
     end
+  end
+
+  def comment_params
+    params.require(:comment).permit(:author_id, :photo_id, :body)
+  end
 end
