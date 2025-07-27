@@ -1,3 +1,7 @@
+<li id="<%= dom_id(comment.photo) %>_new_comment_form" class="list-group-item">
+  <%= form_with(model: comment, local: false) do |form| %>
+
+
 <li class="list-group-item">
   <%= form_with(model: comment) do |form| %>
     <% if comment.errors.any? %>
