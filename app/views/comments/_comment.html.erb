@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<li id="<%= dom_id(comment) %>" class="list-group-item">
   <div class="d-flex">
     <div class="flex-shrink-0">
       <%= image_tag comment.author.avatar_image_url, class: "rounded-circle me-2 img-cover img-small" %>
@@ -15,7 +15,10 @@
               <i class="fas fa-edit fa-fw"></i>
             <% end %>
 
-            <%= button_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "btn btn-sm btn-link" do %>
+            <%= button_to comment,
+                  method: :delete,
+                  class: "btn btn-link btn-sm text-muted",
+                  remote: true do %>
               <i class="fas fa-trash fa-fw"></i>
             <% end %>
           <% end %>
@@ -23,5 +26,5 @@
       </div>
       <p><%= comment.body %></p>
     </div>
-  </div> 
+  </div>
 </li>
