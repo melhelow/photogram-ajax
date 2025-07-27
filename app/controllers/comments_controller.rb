@@ -29,17 +29,18 @@ end
 
 
   # PATCH/PUT /comments/1 or /comments/1.json
-  def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to root_url, notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+ def update
+  respond_to do |format|
+    if @comment.update(comment_params)
+      format.html { redirect_to @comment, notice: "Comment updated." }
+      format.json { render :show }
+      format.js
+    else
+      format.js { render template: "comments/update_error" }
     end
   end
+end
+
 
   # DELETE /comments/1 or /comments/1.json
 def destroy
