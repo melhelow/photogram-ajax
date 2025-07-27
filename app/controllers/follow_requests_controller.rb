@@ -7,12 +7,12 @@ class FollowRequestsController < ApplicationController
     @follow_request.sender = current_user
 
     respond_to do |format|
-      if @follow_request.save
-        format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully created." }
-        format.json { render :show, status: :created, location: @follow_request }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @follow_request.errors, status: :unprocessable_entity }
+    if @follow_request.save
+      format.html { redirect_back fallback_location: root_path, notice: "Follow request sent." }
+      format.js   # This tells Rails to respond with create.js.erb
+    else
+      format.html { redirect_back fallback_location: root_path, alert: "Failed to send follow request." }
+      format.js { render 'create_error' } # optional error js template
       end
     end
   end
@@ -32,12 +32,15 @@ class FollowRequestsController < ApplicationController
 
   # DELETE /follow_requests/1 or /follow_requests/1.json
   def destroy
-    @follow_request.destroy
-    respond_to do |format|
-      format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully destroyed." }
-      format.json { head :no_content }
-    end
+  @follow_request.destroy
+
+  respond_to do |format|
+    format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully destroyed." }
+    format.json { head :no_content }
+    format.js   # <- This line is important for JS tests
   end
+end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

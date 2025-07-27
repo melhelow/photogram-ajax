@@ -29,14 +29,18 @@ end
 
 
   # PATCH/PUT /comments/1 or /comments/1.json
- def update
-  respond_to do |format|
-    if @comment.update(comment_params)
-      format.html { redirect_to @comment, notice: "Comment updated." }
-      format.json { render :show }
-      format.js
-    else
-      format.js { render template: "comments/update_error" }
+def update
+  @comment = Comment.find(params[:id])
+
+  if @comment.update(comment_params)
+    respond_to do |format|
+      format.html { redirect_to request.referer || root_path, notice: "Comment updated." }
+      format.js   # Looks for update.js.erb
+    end
+  else
+    respond_to do |format|
+      format.html { render :edit }
+      format.js   # Optionally render a JS error partial or just leave it blank
     end
   end
 end
